@@ -5,7 +5,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
-import { connectDb } from "./src/configs/dbConnection.js";
+import { dbConnection } from "./src/configs/dbConnection.js";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
 import apiRoutes from "./src/api.js";
 
@@ -33,9 +33,7 @@ server.use("/api", apiRoutes);
 server.use(errorHandler);
 
 // Connect to DB (Vercel runs cold starts, so ensure this is async safe)
-connectDb()
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("MongoDB connection error:", error));
+dbConnection()
 
   // Start server for local testing
 const PORT = process.env.PORT || 5000;
