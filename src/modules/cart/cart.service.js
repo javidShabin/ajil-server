@@ -47,3 +47,29 @@ export const addToCartService = async (data) => {
   await cart.save();
   return cart;
 };
+
+export const getCartService = async () => {
+  // Find the cart (you can filter by user later if needed)
+  const cart = await Cart.findOne()
+    .populate("items.productId", "title sku category") // optional: populate product details
+    .lean(); // make it plain JS object for performance
+
+  if (!cart) {
+    throw new AppError("Cart is empty or not found", 404);
+  }
+
+  // Recalculate total price just to ensure accuracy
+  const totalPrice = cart.items.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+
+  // Return clean response
+  return {
+    _id: cart._id,
+    items: cart.items,
+    totalPrice,
+    createdAt: cart.createdAt,
+    updatedAt: cart.updatedAt,
+  };
+};

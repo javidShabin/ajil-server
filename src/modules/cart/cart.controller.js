@@ -1,4 +1,4 @@
-import { addToCartService } from "./cart.service.js";
+import { addToCartService, getCartService } from "./cart.service.js";
 
 
 export const addToCart = async (req, res, next) => {
@@ -12,3 +12,15 @@ export const addToCart = async (req, res, next) => {
   }
 };
 
+export const getCart = async (req, res, next) => {
+  try {
+    const cart = await getCartService();
+    res.status(200).json({
+      success: true,
+      message: "Cart fetched successfully",
+      cart,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
