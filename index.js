@@ -35,10 +35,10 @@ server.use(errorHandler);
 // Connect to DB (Vercel runs cold starts, so ensure this is async safe)
 dbConnection()
 
-  // Start server for local testing
-const PORT = process.env.PORT || 5000;
-if (process.env.NODE_ENV !== "serverless") {
-  server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-}
+//   // Start server for local testing
+// const PORT = process.env.PORT || 5000;
+// if (process.env.NODE_ENV !== "serverless") {
+//   server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// }
 
 export default server;
