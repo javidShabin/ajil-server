@@ -15,6 +15,11 @@ const ProductSchema = new Schema(
       required: true,
       unique: true,
     },
+    types: {
+      type: String,
+      default: "normal",
+      enum: ["premium", "normal"]
+    },
     price: {
       type: Number,
       required: true,

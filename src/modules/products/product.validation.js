@@ -1,7 +1,7 @@
 import { AppError } from "../../utils/AppError.js";
 
 export const validateAddProduct = (data) => {
-  const { title, sku, price, category } = data;
+  const { title, sku, price, category, types } = data;
 
   if (!title || typeof title !== "string" || title.trim().length === 0)
     throw new AppError("Title is required and must be a non-empty string", 400);
@@ -11,6 +11,8 @@ export const validateAddProduct = (data) => {
 
   if (price === undefined || price === null || isNaN(Number(price)) || Number(price) < 0)
     throw new AppError("Price is required and must be a non-negative number", 400);
+
+  if (!types) throw new AppError("Type is required", 400);
 
   if (!category || typeof category !== "string" || category.trim().length === 0)
     throw new AppError("Category is required and must be a non-empty string", 400);

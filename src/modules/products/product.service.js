@@ -7,7 +7,7 @@ import { validateAddProduct } from "./product.validation.js";
 export const addProductService = async (data, file) => {
   try {
     validateAddProduct(data);
-    const { title, sku, price, category } = data;
+    const { title, sku, price, category, types } = data;
 
     const existProduct = await Product.findOne({ sku });
     if (existProduct) {
@@ -27,6 +27,7 @@ export const addProductService = async (data, file) => {
       sku,
       price,
       category,
+      types,
       image: uploadResult?.secure_url || "",
     });
 
