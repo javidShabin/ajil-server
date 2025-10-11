@@ -12,7 +12,12 @@ import apiRoutes from "./src/api.js";
 const server = express();
 
 // Middlewares
-server.use(cors());
+server.use(cors({
+  origin: "https://ajil-client.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, // if you need cookies/auth
+}));
+
 server.use(cookieParser());
 server.use(helmet());
 server.use(express.json());
