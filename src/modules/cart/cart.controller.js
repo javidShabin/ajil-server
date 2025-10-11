@@ -1,5 +1,6 @@
 import {
   addToCartService,
+  deleteCartItemService,
   getCartService,
   updateCartService,
 } from "./cart.service.js";
@@ -32,6 +33,20 @@ export const updateCart = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Cart updated successfully",
+      cart,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteCartItem = async (req, res, next) => {
+  try {
+    const { productId } = req.body;
+    const cart = await deleteCartItemService(productId);
+    res.status(200).json({
+      success: true,
+      message: "Item deleted from cart successfully",
       cart,
     });
   } catch (err) {

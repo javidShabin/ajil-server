@@ -121,3 +121,38 @@ export const updateCartService = async (data) => {
 
   return cart;
 };
+
+export const deleteCartItemService = async (productId) => {
+  if (!productId) {
+    throw new AppError("Product ID is required", 400);
+  }
+
+  // Find cart (you can filter by user later)
+  const cart = await Cart.findOne();
+
+  if (!cart) {
+    throw new AppError("Cart not found", 404);
+  }
+
+  // Find item index
+  const itemIndex = cart.items.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+
+  if (itemIndex === -1) {
+    throw new AppError("Item not found in cart", 404);
+  }
+
+  // Remove item
+  cart.items.splice(itemIndex, 1);
+
+  // Recalculate total price
+  cart.totalPrice = cart.items.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+
+  await cart.save();
+
+  return cart;
+};
