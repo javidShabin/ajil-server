@@ -32,5 +32,10 @@ connectDb()
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
 
-// ❌ No server.listen() here!
+  // Start server for local testing
+const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== "serverless") {
+  server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
+
 export default server;
