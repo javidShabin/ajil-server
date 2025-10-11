@@ -13,7 +13,7 @@ const server = express();
 
 // Middlewares
 server.use(cors({
-  origin: "https://ajil-client.vercel.app",
+  origin: ["https://ajil-client.vercel.app","http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // if you need cookies/auth
 }));
