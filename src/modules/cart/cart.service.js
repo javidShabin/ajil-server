@@ -73,3 +73,51 @@ export const getCartService = async () => {
     updatedAt: cart.updatedAt,
   };
 };
+
+export const updateCartService = async (data) => {
+  const { productId, action } = data; // action can be "increase" or "decrease"
+
+  if (!productId || !action) {
+    throw new AppError("Product ID and action are required", 400);
+  }
+
+  // Find cart (later you can filter by userId)
+  const cart = await Cart.findOne();
+
+  if (!cart) {
+    throw new AppError("Cart not found", 404);
+  }
+
+  // Find item in cart
+  const itemIndex = cart.items.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+
+  if (itemIndex === -1) {
+    throw new AppError("Item not found in cart", 404);
+  }
+
+  // Update quantity
+  if (action === "increase") {
+    cart.items[itemIndex].quantity += 1;
+  } else if (action === "decrease") {
+    cart.items[itemIndex].quantity -= 1;
+
+    // If quantity <= 0, remove item
+    if (cart.items[itemIndex].quantity <= 0) {
+      cart.items.splice(itemIndex, 1);
+    }
+  } else {
+    throw new AppError("Invalid action type. Use 'increase' or 'decrease'.", 400);
+  }
+
+  // Recalculate total price
+  cart.totalPrice = cart.items.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+
+  await cart.save();
+
+  return cart;
+};
