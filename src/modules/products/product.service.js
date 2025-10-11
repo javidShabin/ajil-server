@@ -7,7 +7,7 @@ import { validateAddProduct } from "./product.validation.js";
 export const addProductService = async (data, file) => {
   try {
     validateAddProduct(data);
-    const { title, sku, price } = data;
+    const { title, sku, price, category } = data;
 
     const existProduct = await Product.findOne({ sku });
     if (existProduct) {
@@ -26,6 +26,7 @@ export const addProductService = async (data, file) => {
       title,
       sku,
       price,
+      category,
       image: uploadResult?.secure_url || "",
     });
 
@@ -37,7 +38,44 @@ export const addProductService = async (data, file) => {
 };
 
 // Get all product list service
+export const getAllProductsService = async () => {
+  const products = await Product.find().sort({ createdAt: -1 });
+  return products;
+};
 
 // Update Product details
+export const updateProductService = async (id, data, file) => {
+  const product = await Product.findById(id);
+  if (!product) throw new AppError("Product not found", 404);
+
+  const { title, sku, price, category } = data;
+
+  if (title) product.title = title;
+  if (sku) product.sku = sku;
+  if (price !== undefined) product.price = price;
+  if (category) product.category = category
+
+  if (file) {
+    const uploadResult = await cloudinary.uploader.upload(file.path);
+    product.image = uploadResult.secure_url;
+  }
+
+  await product.save();
+  return { message: "Product updated", product };
+}
 
 // Delete product
+export const deleteProductService = async (id) => {
+  const product = await Product.findById(id);
+  if (!product) throw new AppError("Product not found", 404);
+
+  await Product.findByIdAndDelete(id);
+  return { message: "Product deleted successfully" };
+};
+
+// filter by category
+export const getPorductByCategroyService = async (category) => {
+  const filter = category ? { category } : {};
+  const products = await Product.find(filter).sort({ createdAt: -1 });
+  return products;
+};
