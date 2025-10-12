@@ -1,5 +1,7 @@
 import {
   addProductService,
+  ByCategoryNormalService,
+  ByCategoryPremiumService,
   deleteProductService,
   getAllProductsService,
   getPorductByCategroyService,
@@ -79,3 +81,26 @@ export const getAllProductsbyCategory = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getProductsbyCategoryPremium = async (req, res, next) => {
+  try {
+    const { category } = req.query; // Example: /filter-premium?category=Electronics
+    const products = await ByCategoryPremiumService(category);
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProductsbyCategoryNormal = async (req, res, next) => {
+  try {
+    const { category } = req.query; // Example: /filter-premium?category=Electronics
+    const products = await ByCategoryNormalService(category);
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+

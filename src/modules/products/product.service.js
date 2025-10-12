@@ -102,3 +102,31 @@ export const getPorductByCategroyService = async (category) => {
   const products = await Product.find(filter).sort({ createdAt: -1 });
   return products;
 };
+
+export const ByCategoryPremiumService = async (category) => {
+  // Only fetch products with types "premium"
+  const filter = { types: "premium" };
+
+  // Add category filter if provided
+  if (category) {
+    filter.category = category;
+  }
+
+  // Fetch products sorted by newest first
+  const products = await Product.find(filter).sort({ createdAt: -1 });
+  return products;
+};
+
+export const ByCategoryNormalService = async (category) => {
+  // Only fetch products with types "premium"
+  const filter = { types: "normal" };
+
+  // Add category filter if provided
+  if (category) {
+    filter.category = category;
+  }
+
+  // Fetch products sorted by newest first
+  const products = await Product.find(filter).sort({ createdAt: -1 });
+  return products;
+};
