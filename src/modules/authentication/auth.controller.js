@@ -54,8 +54,8 @@ export const userLogin = async (req, res, next) => {
     // ✅ Set authentication token in cookie after successful login
     res.cookie("userToken", result.token, {
       httpOnly: true,        // Prevent client-side access to cookie
-      secure: false,         // Should be true in production (HTTPS)
-      sameSite: "strict",    // Prevent cross-site request issues
+      secure: true,         // Should be true in production (HTTPS)
+      sameSite: "none",    // Prevent cross-site request issues
       maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie valid for 7 days
     });
 
