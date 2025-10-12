@@ -3,6 +3,8 @@ import {
   deleteProductService,
   getAllProductsService,
   getPorductByCategroyService,
+  getProductByNormal,
+  getProductByPremium,
   updateProductService,
 } from "./product.service.js";
 
@@ -20,6 +22,24 @@ export const addProduct = async (req, res, next) => {
 export const getAllProducts = async (req, res, next) => {
   try {
     const products = await getAllProductsService();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPremiumProducts = async (req, res, next) => {
+  try {
+    const products = await getProductByPremium();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getNormalProducts = async (req, res, next) => {
+  try {
+    const products = await getProductByNormal();
     res.status(200).json(products);
   } catch (error) {
     next(error);

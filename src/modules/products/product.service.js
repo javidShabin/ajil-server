@@ -44,6 +44,28 @@ export const getAllProductsService = async () => {
   return products;
 };
 
+export const getProductByPremium = async () => {
+  try {
+    const products = await Product.find({ types: "premium" }).sort({
+      createdAt: -1,
+    });
+    return products;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getProductByNormal = async () => {
+  try {
+    const products = await Product.find({ types: "normal" }).sort({
+      createdAt: -1,
+    });
+    return products;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Update Product details
 export const updateProductService = async (id, data, file) => {
   const product = await Product.findById(id);
@@ -54,7 +76,7 @@ export const updateProductService = async (id, data, file) => {
   if (title) product.title = title;
   if (sku) product.sku = sku;
   if (price !== undefined) product.price = price;
-  if (category) product.category = category
+  if (category) product.category = category;
 
   if (file) {
     const uploadResult = await cloudinary.uploader.upload(file.path);
@@ -63,7 +85,7 @@ export const updateProductService = async (id, data, file) => {
 
   await product.save();
   return { message: "Product updated", product };
-}
+};
 
 // Delete product
 export const deleteProductService = async (id) => {
