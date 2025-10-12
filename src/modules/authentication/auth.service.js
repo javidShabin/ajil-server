@@ -124,7 +124,7 @@ export const loginService = async (data) => {
     const token = generateToken({ id: isUser.id });
 
     // Step 6: Return success message and token
-    return { message: "User logged in successfully", token };
+    return { message: "User logged in successfully", token, isUser };
   } catch (error) {
     throw error;
   }

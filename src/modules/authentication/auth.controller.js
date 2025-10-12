@@ -60,7 +60,7 @@ export const userLogin = async (req, res, next) => {
     });
 
     // Send success message
-    res.status(200).json({ message: result.message });
+    res.status(200).json({ message: result.message, user: result.isUser.email });
   } catch (error) {
     next(error);
   }
