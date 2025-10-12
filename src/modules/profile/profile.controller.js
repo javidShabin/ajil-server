@@ -18,6 +18,7 @@ export const getUserProfile = async (req, res, next) => {
   }
 };
 
+
 export const updateProfile = async (req, res, next) => {
   try {
   } catch (error) {}
