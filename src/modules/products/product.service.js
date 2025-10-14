@@ -46,7 +46,7 @@ export const getAllProductsService = async () => {
 
 export const getProductByPremium = async () => {
   try {
-    const products = await Product.find({ types: "premium" }).sort({
+    const products = await Product.find({ types: "cookware" }).sort({
       createdAt: -1,
     });
     return products;
@@ -57,7 +57,7 @@ export const getProductByPremium = async () => {
 
 export const getProductByNormal = async () => {
   try {
-    const products = await Product.find({ types: "normal" }).sort({
+    const products = await Product.find({ types: "dining" }).sort({
       createdAt: -1,
     });
     return products;
