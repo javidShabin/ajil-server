@@ -17,8 +17,7 @@ const ProductSchema = new Schema(
     },
     types: {
       type: String,
-      default: "normal",
-      enum: ["premium", "normal"]
+      enum: ["cookware", "dining"]
     },
     price: {
       type: Number,
