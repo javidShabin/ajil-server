@@ -17,7 +17,7 @@ const ProductSchema = new Schema(
     },
     types: {
       type: String,
-      enum: ["cookware", "dining"]
+      enum: ["kitchen essentials & cookware", "dining & serveware", "appliances & other needs"]
     },
     price: {
       type: Number,

@@ -40,15 +40,13 @@ export const addProductService = async (data, file) => {
 
 // Get all product list service
 export const getAllProductsService = async () => {
-  const products = await Product.find().sort({ createdAt: -1 });
+  const products = await Product.find()
   return products;
 };
 
 export const getProductByPremium = async () => {
   try {
-    const products = await Product.find({ types: "cookware" }).sort({
-      createdAt: -1,
-    });
+    const products = await Product.find({ types: "cookware" })
     return products;
   } catch (error) {
     throw error;
@@ -57,9 +55,7 @@ export const getProductByPremium = async () => {
 
 export const getProductByNormal = async () => {
   try {
-    const products = await Product.find({ types: "dining" }).sort({
-      createdAt: -1,
-    });
+    const products = await Product.find({ types: "dining" })
     return products;
   } catch (error) {
     throw error;
@@ -71,12 +67,13 @@ export const updateProductService = async (id, data, file) => {
   const product = await Product.findById(id);
   if (!product) throw new AppError("Product not found", 404);
 
-  const { title, sku, price, category } = data;
+  const { title, sku, price, category ,types} = data;
 
   if (title) product.title = title;
   if (sku) product.sku = sku;
   if (price !== undefined) product.price = price;
   if (category) product.category = category;
+  if(types) product.types = types
 
   if (file) {
     const uploadResult = await cloudinary.uploader.upload(file.path);
@@ -113,7 +110,7 @@ export const ByCategoryPremiumService = async (category) => {
   }
 
   // Fetch products sorted by newest first
-  const products = await Product.find(filter).sort({ createdAt: -1 });
+  const products = await Product.find(filter)
   return products;
 };
 
@@ -127,7 +124,7 @@ export const ByCategoryNormalService = async (category) => {
   }
 
   // Fetch products sorted by newest first
-  const products = await Product.find(filter).sort({ createdAt: -1 });
+  const products = await Product.find(filter)
   return products;
 };
 
@@ -136,9 +133,7 @@ export const getProductsByTypeService = async (type) => {
   try {
     if (!type) throw new Error("Type is required"); // Optional: validate input
 
-    const products = await Product.find({ types: type }).sort({
-      createdAt: -1,
-    });
+    const products = await Product.find({ types: type })
     return products;
   } catch (error) {
     throw error;
