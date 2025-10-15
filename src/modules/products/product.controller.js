@@ -7,6 +7,7 @@ import {
   getPorductByCategroyService,
   getProductByNormal,
   getProductByPremium,
+  getProductsByTypeService,
   updateProductService,
 } from "./product.service.js";
 
@@ -104,3 +105,13 @@ export const getProductsbyCategoryNormal = async (req, res, next) => {
   }
 };
 
+export const getProductsByTypeController = async (req, res, next) => {
+  try {
+    const { type } = req.query; // we get type from query string
+    
+    const products = await getProductsByTypeService(type);
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};

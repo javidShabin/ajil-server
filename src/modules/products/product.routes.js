@@ -8,6 +8,7 @@ import {
   getPremiumProducts,
   getProductsbyCategoryNormal,
   getProductsbyCategoryPremium,
+  getProductsByTypeController,
   updateProduct,
 } from "./product.controller.js";
 import upload from "../../middlewares/multer.js";
@@ -23,5 +24,6 @@ router.delete("/delete-product/:id", deleteProduct);
 router.get("/filter-product", getAllProductsbyCategory);
 router.get("/filter-premium", getProductsbyCategoryPremium);
 router.get("/filter-normal", getProductsbyCategoryNormal);
+router.get("/filter-type", getProductsByTypeController);
 
 export default router;

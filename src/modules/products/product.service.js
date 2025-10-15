@@ -130,3 +130,17 @@ export const ByCategoryNormalService = async (category) => {
   const products = await Product.find(filter).sort({ createdAt: -1 });
   return products;
 };
+
+// Filter products by type
+export const getProductsByTypeService = async (type) => {
+  try {
+    if (!type) throw new Error("Type is required"); // Optional: validate input
+
+    const products = await Product.find({ types: type }).sort({
+      createdAt: -1,
+    });
+    return products;
+  } catch (error) {
+    throw error;
+  }
+};
