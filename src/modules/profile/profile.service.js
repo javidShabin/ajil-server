@@ -46,18 +46,18 @@ export const updatePassowrdService = async (data) => {
       throw new AppError("All fields are required", 400);
     }
 
-    // 2️⃣ Confirm both passwords match
+    // Confirm both passwords match
     if (password !== confirmPassword) {
       throw new AppError("Passwords do not match", 400);
     }
 
-    // 3️⃣ Find OTP record
+    // Find OTP record
     const tempUser = await TempUser.findOne({ email });
     if (!tempUser) {
       throw new AppError("No OTP found for this email", 400);
     }
 
-    // 4️⃣ Check OTP validity
+    // Check OTP validity
     if (tempUser.otp !== otp) {
       throw new AppError("Invalid OTP", 400);
     }
@@ -66,21 +66,21 @@ export const updatePassowrdService = async (data) => {
       throw new AppError("OTP expired", 400);
     }
 
-    // 5️⃣ Find main user
+    // Find main user
     const user = await User.findOne({ email });
     if (!user) {
       throw new AppError("User not found", 404);
     }
 
-    // 6️⃣ Hash new password
+    // Hash new password
     const hashedPassword = await hashPassword(password);
     user.password = hashedPassword;
     await user.save();
 
-    // 7️⃣ Remove used OTP record
+    // Remove used OTP record
     await TempUser.deleteOne({ email });
 
-    // 8️⃣ Return success
+    // Return success
     return { message: "Password updated successfully" };
   } catch (error) {
     throw error;
