@@ -38,10 +38,35 @@ export const addProductService = async (data, file) => {
   }
 };
 
-// Get all product list service
-export const getAllProductsService = async () => {
-  const products = await Product.find()
-  return products;
+// Get all product list service with pagination
+export const getAllProductsService = async (page = 1, limit = 20) => {
+  try {
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNum);
+    
+    const totalProducts = await Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / limitNum);
+
+    return {
+      products,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalProducts,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1,
+        limit: limitNum
+      }
+    };
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getProductByPremium = async () => {
