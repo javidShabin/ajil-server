@@ -9,10 +9,10 @@ export const addProductService = async (data, file) => {
     validateAddProduct(data);
     const { title, sku, price, category, types } = data;
 
-    const existProduct = await Product.findOne({ sku });
-    if (existProduct) {
-      throw new AppError("Product already exists", 400);
-    }
+    // const existProduct = await Product.findOne({ sku });
+    // if (existProduct) {
+    //   throw new AppError("Product already exists", 400);
+    // }
 
     let uploadResult;
 
